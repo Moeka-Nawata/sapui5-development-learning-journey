@@ -7,8 +7,9 @@
 
     <Page title="Flight Customers">
         <content>
-            <Panel headerText="New Customer" expandable="true" expanded="true"
-                   class="sapUiResponsiveMargin sapUiGideOnPhone" width="auto">
+            <Panel expandable="{= !${device>/system/desktop} }" expanded="{device>/system/desktop}"
+                   headerText="New Customer" 
+                   class="sapUiResponsiveMargin sapUiHideOnPhone" width="auto">
                 <content>
                     <f:SimpleForm layout="ColumnLayout" editable="true">
                         <f:toolbar>
@@ -16,7 +17,7 @@
                                 <content>
                                     <ToolbarSpacer/>
                                     <Button icon="sap-icon://create" text="Create Customer" press=".onSave"
-                                            enabled="{= ${customer>/CustomerName} !== undefined && ${customer>/CustomerName}.length > 0 }"/>
+                                            enabled="{= ${customer>/CustomerName} !== undefined &amp;&amp; ${customer>/CustomerName}.length > 0 }"/>
                                 </content>
                             </Toolbar>
                         </f:toolbar>
@@ -27,7 +28,7 @@
                             <Label text="Customer Name"/>
                             <Input value="{customer>/CustomerName}" valueLiveUpdate="true"/>
                             <Label text="Discount"/>
-                            <Input value="{ path: 'customer>Discount',
+                            <Input value="{ path: 'customer>/Discount',
                                             type: 'sap.ui.model.type.Integer',
                                             constraints: {minimum: 0, maximum: 100} }"/>
                             <core:Title text="Address Data"/>
@@ -63,11 +64,12 @@
                 </headerToolbar>
                 <columns>
                     <Column><header><Text text="Customer Name"/></header></Column>
-                    <Column><header><Text text="Street"/></header></Column>
-                    <Column><header><Text text="Post Code"/></header></Column>
+                    <Column minScreenWidth="Desktop"><header><Text text="Street"/></header></Column>
+                    <Column minScreenWidth="Desktop"><header><Text text="Post Code"/></header></Column>
                     <Column><header><Text text="City"/></header></Column>
-                    <Column><header><Text text="Country"/></header></Column>
-                    <Column><header><Text text="Email"/></header></Column>
+                    <Column minScreenWidth="Tablet"><header><Text text="Country"/></header></Column>
+                    <Column minScreenWidth="Tablet"
+                            demandPopin="true"><header><Text text="Email"/></header></Column>
                 </columns>
                 <items>
                     <ColumnListItem>
@@ -88,9 +90,12 @@
                     <Column><header><Text text="Airline ID"/></header></Column>
                     <Column><header><Text text="Connection Number"/></header></Column>
                     <Column><header><Text text="Flight Date"/></header></Column>
-                    <Column><header><Text text="Class"/></header></Column>
-                    <Column><header><Text text="Foreign Currency Payment"/></header></Column>
-                    <Column><header><Text text="Cancellation Status"/></header></Column>
+                    <Column minScreenWidth="Desktop"
+                            demandPopin="true"><header><Text text="Class"/></header></Column>
+                    <Column minScreenWidth="Tablet"
+                            demandPopin="true"><header><Text text="Foreign Currency Payment"/></header></Column>
+                    <Column minScreenWidth="Tablet"
+                            demandPopin="true"><header><Text text="Cancellation Status"/></header></Column>
                 </columns>
                 <items>
                     <ColumnListItem>
@@ -105,7 +110,7 @@
                                          formatter: 'formatter.classText' }"/>
                             <ObjectNumber number="{ parts: [{path: 'ForeignCurrencyPayment'},
                                                             {path: 'ForeignCurrency'} ],
-                                                    type: 'sap.ui.modeltype.Currency',
+                                                    type: 'sap.ui.model.type.Currency',
                                                     formatOptions: {showMeasure: false} }"
                                           unit="{ForeignCurrency}"/>
                             <core:Icon src="{= ${IsCancelled} === 'X' ? 'sap-icon://cancel' : 'sap-icon://accept' }"

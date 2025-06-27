@@ -20,6 +20,15 @@ sap.ui.define([
                     var oRouter = this.getOwnerComponent().getRouter();
                     oRouter.navTo("overview", {}, true);
                 }
+            },
+
+            onInit: function () {
+                var oRouter = this.getOwnerComponent().getRouter();
+                oRouter.getRouter("detail").attachPatternMatched(this._onObjectMatched, this);
+            },
+
+            _onObjectMatched: function (oEvent) {
+                this.getView().bindElement("/UX_Customer" + oEvent.getParameter("arguments").customerId);
             }
 
 

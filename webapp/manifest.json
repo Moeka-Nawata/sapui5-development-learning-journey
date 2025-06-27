@@ -112,7 +112,7 @@
             },
             {
                 "name": "detail",
-                "pattern": "detail",
+                "pattern": "detail/{customerId}",
                 "target":[
                     "detail"
                 ]
